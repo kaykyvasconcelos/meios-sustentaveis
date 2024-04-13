@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html
+  lang="pt-br"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CiberPizza - Paixão e Inovação</title>
+
+    <link rel="shortcut icon" href="assets/img/logo.png" type="image/x-icon" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container d-flex justify-content-between p-2">
+        <div class="d-flex justify-content-between">
+          <div class="item px-2">
+            <p>Nos siga nas redes sociais:</p>
+          </div>
+          <div class="item px-2">
+            <a href="https://facebook.com/"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+          </div>
+          <div class="item px-2">
+            <a href="https://twitter.com/"><i class="fab fa-twitter"></i></a>
+          </div>
+          <div class="item px-2">
+            <a href="https://instagram.com/"
+              ><i class="fab fa-instagram"></i
+            ></a>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="item px-2">
+            <p><i class="fab fa-whatsapp"></i> (11) 99999-9999</p>
+          </div>
+          <div class="item px-2">
+            <p><i class="fas fa-map-marker-alt"></i> Rua da Paz, 797</p>
+          </div>
+        </div>
+      </div>
+      <nav class="navbar navbar-expand-lg pb-2 pt-0">
+        <div class="container">
+          <a class="navbar-brand" th:href="@{'/?idCliente=' + ${idCliente}}">
+            <h2 class="red-text">Ciber<span class="green-text">Pizza</span></h2>
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+              <li class="nav-item">
+                <a class="nav-link" th:href="@{'/?idCliente=' + ${idCliente}}"
+                  >Início</a
+                >
+              </li>
+
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  th:href="@{'/?idCliente=' + ${idCliente} + '#sobre'}"
+                  >Sobre</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  th:href="@{'/?idCliente=' + ${idCliente} + '#cardapio'}"
+                  >Cardápio
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  th:href="@{'/?idCliente=' + ${idCliente} + '#avaliacoes'}"
+                  >Avaliações</a
+                >
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Perfil
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      th:href="@{'/perfil?idCliente=' + ${idCliente}}"
+                      >Meu Perfil</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      th:href="@{'/pedido?idCliente=' + ${idCliente}}"
+                      >Fazer Pedido</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      th:href="@{'/historico?idCliente=' + ${idCliente}}"
+                      >Histórico de Pedidos</a
+                    >
+                  </li>
+                  <li>
+                    <hr class="dropdown-divider" />
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/perfil/sair">Sair</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  th:href="@{'/?idCliente=' + ${idCliente} + '#contato'}"
+                  >Contato</a
+                >
+              </li>
+            </ul>
+            <a class="btn" th:href="@{'/carrinho?idCliente=' + ${idCliente}}">
+              <i class="fas fa-shopping-cart"></i>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="m-5">
+      <div class="card">
+        <div class="card-header">
+          <h1>Faça seu pedido</h1>
+          <h2>Pedido Nº <span th:text="${numeroPedido}">0000</span></h2>
+          <p>
+            Selecione as pizzas e as bebidas abaixo para adicioná-las ao seu
+            pedido!
+          </p>
+        </div>
+        <div class="row p-3">
+          <div class="col-md-8 col-md-push-4">
+            <div id="pizza-selector">
+              <div class="panel-body">
+                <div
+                  class="row row-cols-1 row-cols-md-3 align-items-center justify-content-center gy-4"
+                >
+                  <div th:each="produto : ${listaProdutos}">
+                    <div class="col">
+                      <div class="card h-100">
+                        <img
+                          th:src="${produto.urlImagem}"
+                          class="card-img-top"
+                          style="
+                            min-height: 300px;
+                            min-width: 200px;
+                            object-fit: cover;
+                            display: block;
+                          "
+                          alt="Imagem da Pizza"
+                        />
+                        <div
+                          class="card-body py-2"
+                          style="min-height: 150px; min-width: 200px"
+                        >
+                          <h5 class="card-title" th:text="${produto.nome}">
+                            Nome da Pizza
+                          </h5>
+                          <p
+                            class="card-text d-inline-block text-truncate"
+                            style="max-width: 100%"
+                            th:text="${produto.descricao}"
+                          >
+                            Descrição da Pizza
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          class="btn"
+                          data-bs-toggle="modal"
+                          th:data-bs-target="'#pizzaModal' + ${produto.id}"
+                          data-id="${produto.id}"
+                        >
+                          Ver Detalhes
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4 col-md-pull-8">
+            <div class="card shadow">
+              <div class="card-header">
+                <h3>Itens do Pedido</h3>
+              </div>
+              <div class="panel-body">
+                <ul class="list-group">
+                  <li th:each="item : ${listaPedidos}" class="list-group-item">
+                    <div class="item-details card">
+                      <h4
+                        class="card-header"
+                        th:text="${item.produto.nome}"
+                      ></h4>
+                      <div class="table-responsive px-2">
+                        <table
+                          class="table mt-4 text-center table-hover table-bordered align-middle"
+                        >
+                          <thead>
+                            <tr class="table-primary">
+                              <th>Qtd.</th>
+                              <th>Preço Unit.</th>
+                              <th>Total</th>
+                              <th>Remover</th>
+                            </tr>
+                          </thead>
+                          <tbody class="table-group-divider">
+                            <tr>
+                              <td th:text="${item.quantidade}"></td>
+                              <td
+                                th:text="'R$ ' + ${#numbers.formatDecimal(item.preco / item.quantidade, 1, 'POINT', 2, 'COMMA')}"
+                              ></td>
+                              <td
+                                th:text="'R$ ' + ${#numbers.formatDecimal(item.preco, 1, 'POINT', 2, 'COMMA')}"
+                              ></td>
+                              <td>
+                                <a
+                                  class="btn btn-danger p-1"
+                                  th:href="@{'/pedido/removerItem/' + ${item.id} + '?idCliente=' + ${idCliente}}"
+                                >
+                                  <i class="bi bi-x"></i>
+                                </a>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </li>
+                  <div class="align-middle text-center my-4">
+                    <a
+                      class="btn btn-lg btn-block"
+                      th:href="@{'/pedido/limparPedido/' + ${numeroPedido} + '?idCliente=' + ${idCliente}}"
+                    >
+                      Limpar Pedido <i class="fas fa-trash"></i>
+                    </a>
+                  </div>
+                </ul>
+              </div>
+            </div>
+
+            <div class="card mt-3 shadow">
+              <div class="card-header text-center">
+                <div class="p-3">
+                  Valor total:
+                  <span
+                    class="badge bg-success fs-5"
+                    th:text="'R$ ' + ${#numbers.formatDecimal(valorTotal, 1, 'POINT', 2, 'COMMA')}"
+                  ></span>
+                </div>
+              </div>
+              <div class="card-body bg-light">
+                <div class="align-middle text-center p-3">
+                  <p>Mudei de ideia, quero cancelar o pedido</p>
+                  <a
+                    class="btn btn-lg btn-block"
+                    th:href="@{'/pedido/cancelarPedido/' + ${numeroPedido} + '?idCliente=' + ${idCliente}}"
+                  >
+                    Cancelar Pedido <i class="fas fa-times"></i>
+                  </a>
+                </div>
+              </div>
+              <div class="card-footer bg-transparent">
+                <div class="align-middle text-center p-3">
+                  <a
+                    class="btn btn-green btn-lg btn-block"
+                    th:href="@{'/carrinho?idCliente=' + ${idCliente}}"
+                  >
+                    Ir para o carrinho <i class="fas fa-shopping-cart"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer id="footer" class="footer">
+      <div class="container">
+        <div class="row gy-3">
+          <div class="col-lg-3 col-md-6 d-flex">
+            <i class="bi bi-geo-alt icon"></i>
+            <div>
+              <h4>Nosso Endereço</h4>
+              <p>
+                R. da Paz, 797 - Chácara Santo Antônio (Zona Sul) São Paulo -
+                SP, 02327-060
+              </p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links d-flex">
+            <i class="bi bi-telephone icon"></i>
+            <div>
+              <h4>Pode pedir</h4>
+              <p>
+                <strong>Telefone:</strong> +55 11 99999-9999<br />
+                <strong>Email:</strong> contato@ciberpizza.com<br />
+              </p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links d-flex">
+            <i class="bi bi-clock icon"></i>
+            <div>
+              <h4>Nosso Horário</h4>
+              <div>
+                <strong>Segunda-feira - Sábado: </strong>: 18h - 23h;
+                <strong>Domingo:</strong>: 16h - 23h;
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Nossas Redes Sociais</h4>
+            <div class="social-links d-flex">
+              <a href="https://twitter.com/" class="twitter"
+                ><i class="bi bi-twitter"></i
+              ></a>
+              <a href="https://facebook.com/" class="facebook"
+                ><i class="bi bi-facebook"></i
+              ></a>
+              <a href="https://instagram.com/" class="instagram"
+                ><i class="bi bi-instagram"></i
+              ></a>
+              <a href="https://www.linkedin.com/" class="linkedin"
+                ><i class="bi bi-linkedin"></i
+              ></a>
+              <a href="https://github.com/" class="github"
+                ><i class="bi bi-github"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="copyright">
+          &copy; Copyright <strong><span>Rafael</span></strong
+          >. Todos os direitos reservados.
+        </div>
+        <div class="credits">
+          Desenvolvido por
+          <a href="https://www.linkedin.com/in/rafaelmachadobr/"
+            >Rafael Machado</a
+          >
+        </div>
+      </div>
+    </footer>
+
+    <div
+      th:each="produto : ${listaProdutos}"
+      class="modal fade"
+      th:id="'pizzaModal' + ${produto.id}"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="pizzaModalLabel"
+    >
+      <div class="modal-dialog modal-lg" role="document">
+        <form
+          class="modal-content"
+          method="post"
+          th:action="@{'/pedido/adicionarItem?idCliente=' + ${idCliente} + '&numeroPedido=' + ${numeroPedido} + '&idProduto=' + ${produto.id} + '&valorProduto=' + ${produto.valor}}"
+          novalidate
+          th:object="${itemPedidoDTO}"
+        >
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" th:text="${produto.nome}">
+              Nome da Pizza
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col">
+                <img
+                  class="img-fluid h-100"
+                  style="object-fit: cover; display: block"
+                  th:src="${produto.urlImagem}"
+                  alt="Imagem do Produto"
+                />
+              </div>
+              <div class="col">
+                <p th:text="${produto.descricao}"></p>
+                <p>
+                  Valor:
+                  <span
+                    class="green-text"
+                    th:text="'R$ ' + ${#numbers.formatDecimal(produto.valor, 1, 'POINT', 2, 'COMMA')}"
+                  ></span>
+                </p>
+                <p class="small mt-0">
+                  <i class="fas fa-info-circle"></i> O valor da pizza pode
+                  variar de acordo com o tamanho escolhido. O valor exibido é
+                  referente ao tamanho Pequeno.
+                </p>
+                <div class="form-outline mb-4">
+                  <label for="quantidade" class="form-label">Tamanho</label>
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                    id="tamanho-pizza"
+                    th:field="*{tamanho}"
+                  >
+                    <option value="PEQUENA" selected>Pequena</option>
+                    <option value="MEDIA">Média</option>
+                    <option value="GRANDE">Grande</option>
+                  </select>
+                </div>
+                <div class="form-outline mb-4">
+                  <label for="quantidade" class="form-label">Quantidade</label>
+                  <input
+                    type="number"
+                    min="1"
+                    value="1"
+                    pattern="[0-9]+"
+                    class="form-control"
+                    id="quantidade"
+                    th:field="*{quantidade}"
+                    name="quantidade"
+                    placeholder="Digite a quantidade"
+                  />
+                  <div class="valid-feedback">Parece bom!</div>
+                  <div class="invalid-feedback">
+                    <span
+                      th:if="${#fields.hasErrors('quantidade')}"
+                      th:errors="*{quantidade}"
+                    ></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-green">
+              Adicionar ao Pedido <i class="fas fa-shopping-cart"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <button class="scroll-top d-flex align-items-center justify-content-center">
+      <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <div id="preloader"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>
